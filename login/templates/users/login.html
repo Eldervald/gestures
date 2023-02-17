@@ -1,0 +1,41 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}Login{% endblock %}
+{% block style %}
+    <link type="text/css" href="{% static 'css/sign-in.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <main class="form-signin w-100 m-auto">
+        <h1 class="h3 mb-3 fw-normal">Авторизация</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-error">{{ form.non_field_errors }}</div>
+
+            {% for f in form %}
+                <div class="form-floating">
+                    {{ f }}
+                    <label for="{{ f.id_for_label }}">{{ f.label }}</label>
+                    <div class="form-error">{{ f.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Войти</button>
+            {#            <p class="mt-5 mb-3 text-muted">&copy; !!!</p>#}
+
+        </form>
+    </main>
+
+
+
+
+    <!--
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Авторизироваться</button>
+</form>
+-->
+
+{% endblock %}
+

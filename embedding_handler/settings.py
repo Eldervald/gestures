@@ -1,0 +1,1 @@
+TEMPORAL_VIDEO_FOLDER = 'files'

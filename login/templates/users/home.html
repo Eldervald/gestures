@@ -1,0 +1,24 @@
+{% extends 'users/base.html' %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+    <main class="w-100 m-auto">
+        {% if user.is_authenticated %}
+            <h3 class="fw-bold" style="margin-bottom: 15px;">Привет {{ user.username }}!</h3>
+             <a class="btn btn-primary btn-lg" style="width: 300px;"
+                   href="{% url 'logout' %}">Выйти из аккаунта</a>
+
+        {% else %}
+            <h3 class="fw-bold" style="margin-bottom: 15px;">Вы вышли из системы</h3>
+            <div>
+                <a class="btn btn-primary btn-lg" style="width: 300px; margin-bottom: 10px;"
+                   href="{% url 'login' %}">Войти</a>
+                <br>
+                <a class="btn btn-primary btn-lg" style="width: 300px;"
+                   href="{% url 'loginWithVideo' %}">Войти через видео</a>
+            </div>
+
+        {% endif %}
+    </main>
+{% endblock %}

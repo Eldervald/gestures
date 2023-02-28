@@ -2,15 +2,15 @@ import json
 
 from flask import Flask, request
 import os
-from src.video_utils import read_video
 from settings import *
+from src.video_utils import read_video
 from src.handler import video2emb
 
 app = Flask(__name__)
 
 
 @app.route('/', methods=['POST'])
-def get_video_embedding():
+def video2vec():
     file = request.files['content']
     if not os.path.exists(TEMPORAL_VIDEO_FOLDER):
         os.mkdir(TEMPORAL_VIDEO_FOLDER)

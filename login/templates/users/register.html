@@ -1,0 +1,65 @@
+{% extends 'users/base.html' %}
+{% load static %}
+
+{% block title %}Register{% endblock %}
+{% block style %}
+    <link type="text/css" href="{% static 'css/sign-in.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+    <main class="form-signin w-100 m-auto">
+        <h1 class="h3 mb-3 fw-normal">Регистрация</h1>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="form-error">{{ form.non_field_errors }}</div>
+            <div class="form-floating">
+                {{ form.username }}
+                <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+                <div class="form-error">{{ form.username.errors }}</div>
+             </div>
+
+             <div class="form-floating">
+                {{ form.password1 }}
+                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                <div class="form-error">{{ form.password1.errors }}</div>
+             </div>
+
+             <div class="form-floating">
+                {{ form.password2 }}
+                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                <div class="form-error">{{ form.password2.errors }}</div>
+             </div>
+
+            <div class="mb-3">
+                {{ form.video }}
+            </div>
+
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Зарегистрировать</button>
+{#            <p class="mt-5 mb-3 text-muted">&copy; !!!!</p>#}
+        </form>
+    </main>
+
+
+    <main class="form-signin w-100 m-auto">
+
+        <h1 class="h3 mb-3 fw-normal">Записать видео</h1>
+        <button id="start-camera" class="w-50 btn btn-lg btn-primary">Камера</button>
+        <video id="video" width="300" height="250" autoplay></video>
+        <button id="start-record" class="w-100 btn btn-lg btn-primary">Начать запись</button>
+        <button id="stop-record" class="w-100 btn btn-lg btn-primary">Закончить запись</button>
+        <a class="btn btn-primary btn-lg" style="width: 300px;" id="download-video" download="test.webm">Скачать запись</a>
+    </main>
+
+
+    <script src="{% static 'js/client.js' %}"></script>
+    <!--
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Авторизироваться</button>
+</form>
+-->
+
+{% endblock %}
+

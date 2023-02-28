@@ -14,7 +14,8 @@ from django.db import models
 
 
 class CustomUser(AbstractUser):
-    video = models.FileField(upload_to='videos_uploaded', null=True, validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
+    video = models.FileField(upload_to='videos_uploaded', null=True,
+                             validators=[FileExtensionValidator(allowed_extensions=['MOV', 'avi', 'mp4', 'webm', 'mkv'])])
     videoEmbedding = models.BinaryField()
 
 
@@ -48,8 +49,6 @@ class CustomUser(AbstractUser):
         headers = {}
 
         response = requests.request("POST", url, headers=headers, data=payload, files=files)
-
-        print(response.text)
 
         list_bytes = pickle.dumps(json.loads(response.text)['embedding'])
 

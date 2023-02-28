@@ -7,6 +7,7 @@ from django import forms
 
 # Create your views here.
 from django.urls import reverse_lazy
+from django.views.generic import CreateView
 
 from login.forms import *
 from login.backend import *
@@ -33,3 +34,12 @@ def logout_user(request):
     return redirect('home')
 
 
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'users/register.html'
+
+
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')

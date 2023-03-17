@@ -1,12 +1,14 @@
+import cv2
+import mediapipe as mp
+import datetime
+
 from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django import forms
-
-
-# Create your views here.
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView
 
 from login.forms import *
@@ -43,3 +45,100 @@ class RegisterUser(CreateView):
         user = form.save()
         login(self.request, user)
         return redirect('home')
+
+@csrf_exempt
+def classification(request):
+    mp_hands = mp.solutions.hands
+
+    video = request.FILES['video']
+    video_path = video.temporary_file_path()
+    print(video_path)
+
+    cap = cv2.VideoCapture(video_path)
+
+    first_time = datetime.datetime.now()
+
+
+    with mp_hands.Hands(
+            min_detection_confidence=0.5,
+            min_tracking_confidence=0.5) as hands:
+
+        if not cap.isOpened():
+            print("File Cannot be Opened")
+
+        length = int(cap.get(cv2.CAP_PROP_FPS))
+        print(length)
+
+        result = 'None'
+        while cap.isOpened():
+            success, image = cap.read()
+            if not success:
+                break
+
+
+            results = hands.process(image)
+            image_height, image_width, _ = image.shape
+            # print(image_height, image_width)
+
+
+            count_of_left_up =count_of_right_up = count_of_left_down = count_of_right_down = 0
+
+            first_time1 = datetime.datetime.now()
+            if results.multi_hand_landmarks:
+                for hand_landmarks in results.multi_hand_landmarks:
+                    for ids, landmrk in enumerate(hand_landmarks.landmark):
+                        # print(ids, landmrk)
+                        cx, cy = landmrk.x * image_width, landmrk.y * image_height
+
+                        if(cx>=image_width/2 and cy<=image_height/2):
+                            count_of_left_up = count_of_left_up+1
+                        if (cx >= image_width / 2 and cy >= image_height / 2):
+                            count_of_left_down = count_of_left_down + 1
+                        if (cx <= image_width / 2 and cy <= image_height / 2):
+                            count_of_right_up = count_of_right_up + 1
+                        if (cx <= image_width / 2 and cy >= image_height / 2):
+                            count_of_right_down = count_of_right_down + 1
+
+                        # print(cx, cy)
+                        # print (ids, cx, cy)
+
+                # print(count_of_left_up,count_of_left_down, count_of_right_up, count_of_right_down )
+                if count_of_left_up > 17:
+                    result = 'Левый верхний угол'
+                if count_of_left_down > 17:
+                    result = 'Левый нижний угол'
+                if count_of_right_up > 17:
+                    result = 'Правый верхний угол'
+                if count_of_right_down > 17:
+                    result = 'Правый нижний угол'
+
+
+
+    # print(dict(request.FILES.items()))
+    # print(dict(request.POST.items()))
+    # print(dict(request.GET.items()))
+    later_time = datetime.datetime.now()
+    difference = later_time - first_time
+    print(difference)
+
+
+
+
+    response = {
+        'classification': result
+    }
+    return JsonResponse(response)
+
+
+
+
+
+
+
+@csrf_exempt
+def angle(request):
+
+    response = {
+        'angle': ''
+    }
+    return JsonResponse(response)

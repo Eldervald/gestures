@@ -4,6 +4,8 @@ let start_button = document.querySelector("#start-record");
 let stop_button = document.querySelector("#stop-record");
 let download_link = document.querySelector("#download-video");
 let file_input = document.querySelector("#id_video");
+let show_classification = document.querySelector("#classification");
+
 
 let camera_stream = null;
 let media_recorder = null;
@@ -33,19 +35,55 @@ start_button.addEventListener('click', function() {
     	blobs_recorded.push(e.data);
     });
 
-    media_recorder.addEventListener('stop', function() {
-    	let video_local = URL.createObjectURL(new Blob(blobs_recorded, { type: 'video/webm' }));
-    	download_link.href = video_local;
+    media_recorder.addEventListener('stop',
+        function () {
+            let video_local = URL.createObjectURL(new Blob(blobs_recorded, {type: 'video/webm'}));
+            download_link.href = video_local;
 
-    	let recording = new File(blobs_recorded, 'recording.webm', { type: 'video/webm' });
+            let recording = new File(blobs_recorded, 'recording.webm', {type: 'video/webm'});
 
-        const dataTransfer = new DataTransfer();
-        dataTransfer.items.add(recording);
-        file_input.files = dataTransfer.files;
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(recording);
+            file_input.files = dataTransfer.files;
 
-        stop_button.style.display = 'none';
-        download_link.style.display = 'block';
-    });
+
+            var form = new FormData();
+            form.append('video', recording);
+
+
+             $.ajax({
+                type: "POST",
+                url: 'classification',
+                data : form,
+                cache: false,
+                contentType: false,
+                processData: false,
+                success: classification
+            });
+
+            function classification(response) {
+                document.getElementById("classification").innerHTML = response.classification;
+            }
+
+
+            // $.ajax({
+            //     type: "POST",
+            //     url: 'angle',
+            //     data : form,
+            //     cache: false,
+            //     contentType: false,
+            //     processData: false,
+            //     success: angle
+            // });
+            //
+            // function angle(response) {
+            //     document.getElementById("classification").innerHTML = response.angle;
+            // }
+
+            stop_button.style.display = 'none';
+            download_link.style.display = 'block';
+
+        });
 
     media_recorder.start(1000);
 

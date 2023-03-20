@@ -65,9 +65,6 @@ start_button.addEventListener('click', function() {
                 document.getElementById("classification").innerHTML = response.classification;
             }
 
-
-
-
             stop_button.style.display = 'none';
             download_link.style.display = 'block';
 

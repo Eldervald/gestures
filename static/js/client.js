@@ -66,19 +66,7 @@ start_button.addEventListener('click', function() {
             }
 
 
-            // $.ajax({
-            //     type: "POST",
-            //     url: 'angle',
-            //     data : form,
-            //     cache: false,
-            //     contentType: false,
-            //     processData: false,
-            //     success: angle
-            // });
-            //
-            // function angle(response) {
-            //     document.getElementById("classification").innerHTML = response.angle;
-            // }
+
 
             stop_button.style.display = 'none';
             download_link.style.display = 'block';

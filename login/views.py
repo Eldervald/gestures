@@ -58,7 +58,7 @@ def classification(request):
 
     first_time = datetime.datetime.now()
 
-
+    result = 'None'
     with mp_hands.Hands(
             min_detection_confidence=0.5,
             min_tracking_confidence=0.5) as hands:
@@ -69,7 +69,7 @@ def classification(request):
         length = int(cap.get(cv2.CAP_PROP_FPS))
         print(length)
 
-        result = 'None'
+
         while cap.isOpened():
             success, image = cap.read()
             if not success:
@@ -83,7 +83,6 @@ def classification(request):
 
             count_of_left_up =count_of_right_up = count_of_left_down = count_of_right_down = 0
 
-            first_time1 = datetime.datetime.now()
             if results.multi_hand_landmarks:
                 for hand_landmarks in results.multi_hand_landmarks:
                     for ids, landmrk in enumerate(hand_landmarks.landmark):
@@ -130,15 +129,3 @@ def classification(request):
     return JsonResponse(response)
 
 
-
-
-
-
-
-@csrf_exempt
-def angle(request):
-
-    response = {
-        'angle': ''
-    }
-    return JsonResponse(response)

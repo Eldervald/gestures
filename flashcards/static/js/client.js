@@ -4,7 +4,7 @@ let start_button = document.querySelector("#start-record");
 let stop_button = document.querySelector("#stop-record");
 let download_link = document.querySelector("#download-video");
 let file_input = document.querySelector("#id_video");
-let show_classification = document.querySelector("#classification");
+
 
 
 let camera_stream = null;
@@ -50,20 +50,6 @@ start_button.addEventListener('click', function() {
             var form = new FormData();
             form.append('video', recording);
 
-
-             $.ajax({
-                type: "POST",
-                url: 'classification',
-                data : form,
-                cache: false,
-                contentType: false,
-                processData: false,
-                success: classification
-            });
-
-            function classification(response) {
-                document.getElementById("classification").innerHTML = response.classification;
-            }
 
             stop_button.style.display = 'none';
             download_link.style.display = 'block';

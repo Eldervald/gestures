@@ -6,8 +6,11 @@
     <main class="w-100 m-auto">
         {% if user.is_authenticated %}
             <h3 class="fw-bold" style="margin-bottom: 15px;">Привет {{ user.username }}!</h3>
-             <a class="btn btn-primary btn-lg" style="width: 300px;"
+             <a class="btn btn-primary btn-lg" style="width: 300px; margin-bottom: 10px;"
                    href="{% url 'logout' %}">Выйти из аккаунта</a>
+             <br>
+             <a class="btn btn-primary btn-lg" style="width: 300px;"
+                href="{% url 'flashcards' %}">Обучение</a>
 
         {% else %}
             <h3 class="fw-bold" style="margin-bottom: 15px;">Вы вышли из системы</h3>

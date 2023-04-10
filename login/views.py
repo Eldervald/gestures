@@ -48,6 +48,7 @@ class RegisterUser(CreateView):
 
 @csrf_exempt
 def classification(request):
+    print("!!!")
     mp_hands = mp.solutions.hands
 
     video = request.FILES['video']
@@ -78,7 +79,7 @@ def classification(request):
 
             results = hands.process(image)
             image_height, image_width, _ = image.shape
-            # print(image_height, image_width)
+
 
 
             count_of_left_up =count_of_right_up = count_of_left_down = count_of_right_down = 0
@@ -86,7 +87,7 @@ def classification(request):
             if results.multi_hand_landmarks:
                 for hand_landmarks in results.multi_hand_landmarks:
                     for ids, landmrk in enumerate(hand_landmarks.landmark):
-                        # print(ids, landmrk)
+
                         cx, cy = landmrk.x * image_width, landmrk.y * image_height
 
                         if(cx>=image_width/2 and cy<=image_height/2):
@@ -98,10 +99,6 @@ def classification(request):
                         if (cx <= image_width / 2 and cy >= image_height / 2):
                             count_of_right_down = count_of_right_down + 1
 
-                        # print(cx, cy)
-                        # print (ids, cx, cy)
-
-                # print(count_of_left_up,count_of_left_down, count_of_right_up, count_of_right_down )
                 if count_of_left_up > 17:
                     result = 'Левый верхний угол'
                 if count_of_left_down > 17:
@@ -112,10 +109,6 @@ def classification(request):
                     result = 'Правый нижний угол'
 
 
-
-    # print(dict(request.FILES.items()))
-    # print(dict(request.POST.items()))
-    # print(dict(request.GET.items()))
     later_time = datetime.datetime.now()
     difference = later_time - first_time
     print(difference)

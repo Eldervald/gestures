@@ -1,0 +1,56 @@
+{% extends 'flashcards/base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body%}
+<div class="row">
+    {% for t in topics %}
+    {% cycle 'primary' 'warning' 'danger' 'secondary' 'success' 'info' 'dark' as color silent %}
+    {% if forloop.counter0|divisibleby:3 %}
+</div><br>
+<div class="row ml-4">
+    {% endif %}
+
+    <div class="column">
+
+        {% if forloop.counter0 == 2 %}
+        <div class="card text-white bg-{{ color }} mr-5" style="width: 17rem;">
+            {% else %}
+            <div class="card text-white bg-{{ color }} mr-3" style="width: 17rem;">
+                {% endif %}
+
+                <div class="card-header">{{ t.topic }}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ t.description }}</h5>
+
+
+                    {% if t.get_card_count != 1 %}
+                    <h6 class="card-subtitle mb-2 text-white">{{ t.get_card_count }} cards in deck</h6>
+                    {% else %}
+                    <h6 class="card-subtitle mb-2 text-white">{{ t.get_card_count }} card in deck</h6>
+                    {% endif %}
+
+
+                    <a href="{% url 'view_card_set' t.id %}" class="card-link text-white">Study</a>
+                    <a href="{% url 'edit_card_set' t.id %}" class="card-link text-white">Edit Deck</a>
+                    <a href="{% url 'create_card' t.id %}" class="card-link text-white">Add Card</a>
+                </div>
+            </div>
+        </div>
+
+        {% if forloop.counter0 == 2 %}
+        <div class="column ml-5">
+            <h3>Custom Card Set</h3>
+            <h6>Create a custom study set</h6>
+            <p>
+                <a class="btn btn-primary" href="{% url 'flashcards:create_card_set' %}"
+                   role="button">Create New</a>
+            </p>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endblock %}
+

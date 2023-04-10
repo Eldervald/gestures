@@ -1,0 +1,66 @@
+{% extends 'flashcards/base.html' %}
+{% load widget_tweaks %}
+
+{% block head %}
+<title>Flashcards</title>
+
+
+{% endblock %}
+
+{% block body%}
+<div class="container">
+    <div class="row">
+
+        <div class="col-md-4 mr-5">
+            {% if card_object %}
+            <video class="card-img-top" controls>
+                <source src="{{ card_object.video.url }}">
+                Your browser does not support the video tag.
+            </video>
+            <h5 class="card-title">{{ card_object.definition }}</h5>
+            <br>
+            {% else %}
+            <p><b>No cards are in the {{card_set_object | upper }} card set.</b></p>
+            {% endif %}
+
+            <ul class="pagination pagination-lg">
+
+                {% if card_object %}
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'view_card_set' card_set_object.id %}?card={{ card_object.get_previous_card.id }}">
+                    Previous</a></li>
+
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'view_card_set' card_set_object.id %}?card={{ card_set_object.get_random_card.id }}">
+                    Random</a></li>
+
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'view_card_set' card_set_object.id %}?card={{ card_object.get_next_card.id }}">
+                    Next</a></li>
+                {% endif %}
+            </ul>
+
+
+            <ul class="pagination pagination-lg">
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'edit_card_set' card_set_object.id %}"
+                                         role="button">Edit Deck</a>
+                    <p>
+
+                        {% if card_object %}
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'edit_card' card_object.id %}"
+                                         role="button">Edit Card</a>
+                    <p>
+                        {% endif %}
+
+                <li class="page-item"><a class="page-link"
+                                         href="{% url 'create_card' card_set_object.id %}"
+                                         role="button">Add Card</a>
+                    <p>
+            </ul>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

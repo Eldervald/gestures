@@ -36,7 +36,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'login.apps.LoginConfig',
+    'flashcards.apps.FlashcardsConfig',
     'bootstrap5',
+    'widget_tweaks',
+
+
 ]
 
 MIDDLEWARE = [

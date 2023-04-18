@@ -1,4 +1,3 @@
-# flashcards views
 from django.shortcuts import (
     HttpResponseRedirect,
     get_object_or_404,

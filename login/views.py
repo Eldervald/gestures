@@ -20,7 +20,7 @@ class LoginUser(LoginView):
     template_name = 'users/login.html'
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('flashcards')
 
 
 class LoginUserWithVideo(LoginView):
@@ -28,12 +28,12 @@ class LoginUserWithVideo(LoginView):
     template_name = 'users/loginWithVideo.html'
 
     def get_success_url(self):
-        return reverse_lazy('home')
+        return reverse_lazy('flashcards')
 
 
 def logout_user(request):
     logout(request)
-    return redirect('home')
+    return redirect('flashcards')
 
 
 class RegisterUser(CreateView):
@@ -44,7 +44,7 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         user = form.save()
         login(self.request, user)
-        return redirect('home')
+        return redirect('flashcards')
 
 @csrf_exempt
 def classification(request):

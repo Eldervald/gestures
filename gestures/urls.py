@@ -22,7 +22,7 @@ from login.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('login.urls')),
-    path('flashcards/', include('flashcards.urls')),
+    path('', include('flashcards.urls')),
 
 
 ]

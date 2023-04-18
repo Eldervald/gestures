@@ -2,8 +2,9 @@
 {% load widget_tweaks %}
 {% load static %}
 
+
 {% block head %}
-<link type="text/css" href="{% static 'css/sign-in.css' %}" rel="stylesheet"/>
+<link type="text/css" href="{% static 'flashcards/css/sign-in.css' %}" rel="stylesheet"/>
 {% if card_object %}
 <title>Card: {{ card_object | upper }}</title>
 {% else %}
@@ -35,7 +36,7 @@
                     {% else %}
                     <div class="form-floating">
                         <div class="mb-3" id="video_recording">
-                            {{ f}}
+                            {{f}}
                         </div>
 
                     </div>
@@ -70,6 +71,6 @@
 </div>
 
 
-<script src="{% static 'js/client.js' %}"></script>
+<script src="{% static 'flashcards/js/client.js' %}"></script>
 
 {% endblock %}
